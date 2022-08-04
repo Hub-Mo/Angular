@@ -1,13 +1,14 @@
 
-{{ friendFormName.value | json }}
+<!--
+{{ friend | json }}
+-->
 <!--Section: Contact v.2-->
 <section class="mb-4 container">
 
   <!--Section heading-->
-  <h2 class="h1-responsive font-weight-bold text-center my-4">Contact us</h2>
+  <h2 class="h1-responsive font-weight-bold text-center my-4">{{title}}</h2>
   <!--Section description-->
-  <p class="text-center w-responsive mx-auto mb-5">Do you have any questions? Please do not hesitate to contact us directly. Our team will come back to you within
-    a matter of hours to help you.</p>
+  <p class="text-center w-responsive mx-auto mb-5"></p>
 
   <div class="row">
 
@@ -21,8 +22,17 @@
           <!--Grid column-->
           <div class="col-md-6">
             <div class="md-form mb-0">
-              <input #inputName="ngModel" ngModel type="text" id="FirstName" name="FirstName" class="form-control">
+              <input #firstName="ngModel"
+                     [(ngModel)]="friend.firstName"
+                     type="text"
+                     id="FirstName"
+                     name="FirstName"
+                     class="form-control"
+                     required
+                     pattern="[a-zA-Z ]+"
+                     [class.error]="firstName.invalid && firstName.touched">
               <label for="FirstName" class="">First name</label>
+              <p *ngIf="firstName.invalid && firstName.touched" class="errorMessage"> invalid first name</p>
             </div>
           </div>
           <!--Grid column-->
@@ -30,15 +40,33 @@
           <!--Grid column-->
           <div class="col-md-6">
             <div class="md-form mb-0">
-              <input #inputName="ngModel" ngModel type="text" id="LastName" name="lastName" class="form-control">
+              <input #lastName="ngModel"
+                     [(ngModel)]="friend.lastName"
+                     type="text"
+                     id="LastName"
+                     name="lastName"
+                     class="form-control"
+                     required
+                     pattern="[a-zA-Z ]+"
+                     [class.error]="lastName.invalid && lastName.touched">
               <label for="LastName" class="">Last name</label>
+              <p *ngIf="lastName.invalid && lastName.touched" class="errorMessage"> invalid last name</p>
             </div>
           </div>
 
           <div class="col-md-6">
             <div class="md-form mb-0">
-              <input #inputName="ngModel" ngModel type="tel" id="phone" name="phone" class="form-control">
+              <input #phone="ngModel"
+                     [(ngModel)]="friend.phone"
+                     type="tel"
+                     id="phone"
+                     name="phone"
+                     class="form-control"
+                     required
+                     pattern="^(((\+|00)32[ ]?(?:\(0\)[ ]?)?)|0){1}(4(60|[789]\d)\/?(\s?\d{2}\.?){2}(\s?\d{2})|(\d\/?\s?\d{3}|\d{2}\/?\s?\d{2})(\.?\s?\d{2}){2})$"
+                     [class.error]="phone.invalid && phone.touched">
               <label for="phone" class="">phone number</label>
+              <p *ngIf="phone.invalid && phone.touched" class="errorMessage"> invalid phone number</p>
             </div>
           </div>
           <!--Grid column-->
@@ -48,8 +76,16 @@
         <div class="row">
           <div class="col-md-12">
             <div class="md-form mb-0">
-              <input #inputName="ngModel" ngModel type="text" id="email" name="subject" class="form-control">
+              <input #email="ngModel"
+                     [(ngModel)]="friend.email"
+                     type="text" id="email"
+                     name="subject"
+                     class="form-control"
+                     required
+                     pattern='^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
+                     [class.error]="email.invalid && email.touched">
               <label for="email" class="">Email</label>
+              <p *ngIf="email.invalid && email.touched" class="errorMessage"> invalid email</p>
             </div>
           </div>
         </div>
@@ -59,9 +95,15 @@
           <div class="col-md-12">
             <div class="md-form mb-0">
               <label for="languages">Choose your favourite language</label>
-              <select #inputName="ngModel" ngModel id="languages" name="cars" >
+              <select #favLang="ngModel"
+                      [(ngModel)]="friend.favLang"
+                      id="languages"
+                      name="cars"
+                      required
+                      [class.error]="favLang.invalid && favLang.touched">
                 <option  *ngFor="let lang of languageArray" value="{{lang}}">{{lang}}</option>
               </select>
+              <p *ngIf="favLang.invalid && favLang.touched" class="errorMessage"> choose your favourite language</p>
             </div>
           </div>
         </div>
@@ -74,8 +116,18 @@
           <div class="col-md-12">
 
             <div class="md-form">
-              <textarea #inputName="ngModel" ngModel type="text" id="message" name="message" rows="2" class="form-control md-textarea"></textarea>
+              <textarea #message="ngModel"
+                        [(ngModel)]="friend.message"
+                        type="text" id="message"
+                        name="message"
+                        rows="2"
+                        class="form-control md-textarea"
+                        required
+                        [class.error]="message.invalid && message.touched">
+              </textarea>
               <label for="message">Your message</label>
+              <p *ngIf="message.invalid && message.touched" class="errorMessage">you need to write a message friend</p>
+
             </div>
 
           </div>
@@ -85,7 +137,7 @@
       </form>
 
       <div class="text-center text-md-left">
-        <a class="btn btn-primary" onclick="document.getElementById('contact-form').submit();">Send</a>
+        <button type="submit" class="btn btn-primary">Send</button>
       </div>
       <div class="status"></div>
     </div>
