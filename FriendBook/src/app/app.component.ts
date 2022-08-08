@@ -43,7 +43,8 @@ public async displayAllFriends(): Promise<any> {
   console.log(this.allMyFriends);
 }
 
-removeFriend(friend : string | null) {
-  console.log(this.allMyFriends.findIndex(friend));
+removeFriend(friend : any) {
+  console.log(friend);
+   this.allMyFriends.splice(friend, 1);
 }
 }
