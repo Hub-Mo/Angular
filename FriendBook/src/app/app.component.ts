@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {Friend} from "./friend";
 import { AddFriendService } from './add-friend.service';
+import { OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -9,11 +10,13 @@ import { AddFriendService } from './add-friend.service';
 })
 
 
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'FriendBook';
   languageArray = ['PHP', 'html', 'css', 'js'];
   friend = new Friend(null, null,null,null,null,null,);
-  allFriends : any;
+  allMyFriends : Friend[] = [];
+  value : any;
+  url : string = 'http://localhost:6969/allfriends';
 
   constructor(private addFriendService : AddFriendService) {}
 
@@ -28,14 +31,19 @@ export class AppComponent {
       complete: () => console.log('it worked'),
     })
 
-    callingFriendList('http://localhost:6969/addfriends');
+    //callingFriendList('http://localhost:6969/allfriends');
+    this.displayAllFriends();
 }
+ngOnInit(): void {
+  this.displayAllFriends();
+}
+public async displayAllFriends(): Promise<any> {
+  this.value = await fetch(this.url) 
+  this.allMyFriends = await this.value.json();
+  console.log(this.allMyFriends);
 }
 
-async function callingFriendList(url : string) : Promise<any>{
-  const response = await fetch(url);
-  const allFriends = await response.json();
-  console.log(allFriends);
-  return allFriends;
+removeFriend(friend : string | null) {
+  console.log(this.allMyFriends.findIndex(friend));
 }
-
+}
